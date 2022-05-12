@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'todo.apps.TodoConfig',
     'rest_framework',
     'api.apps.ApiConfig',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -40,6 +41,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':
+    [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
 
 ROOT_URLCONF = 'backend.urls'
 
