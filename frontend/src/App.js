@@ -11,21 +11,47 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Navbar';
 
+import TodoDataService from './services/todos';
+
 function App() {
   const [user, setUser] = React.useState(null);
   const [token, setToken] = React.useState(null);
   const [error, setError] = React.useState('');
 
   async function login(user = null){ // default user to null
-    setUser(user);
+    TodoDataService.login(user)
+      .then(response =>{        
+        setToken(response.data.token);     
+        setUser(user.username);
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', user.username);
+        setError('');
+      })
+      .catch( e =>{
+        console.log('login', e);
+        setError(e.toString());       
+      });
   }
 
   async function logout(){
-    setUser(null);
+    setToken('');
+    setUser('');
+    localStorage.setItem('token', '');
+    localStorage.setItem('user', ''); 
   }
 
   async function signup(user = null){ // default user to null
-    setUser(user);
+    TodoDataService.signup(user)
+      .then(response =>{
+        setToken(response.data.token);
+        setUser(user.username);
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', user.username);
+      })
+      .catch( e =>{
+        console.log(e);
+        setError(e.toString());
+      })
   }
   
   return (
@@ -37,7 +63,7 @@ function App() {
             <Container>
               <Link class="nav-link" to={"/todos"}>Todos</Link>
               { user ? (
-                <Link class="nav-link">Logout ({user})</Link>
+                <Link class="nav-link" onClick={logout}>Logout ({user})</Link>
               ) : (
                 <>
                   <Link class="nav-link" to={"/login"}>Login</Link>
@@ -77,7 +103,7 @@ function App() {
       <footer className="text-center text-lg-start 
         bg-light text-muted mt-2 fixed-bottom">
         <div className="text-center p-4">
-          © Source code on - <a 
+          © Source code on <a 
             target="_blank" 
             className="text-reset fw-bold text-decoration-none" 
             href="https://github.com/rufreedomman/todo_drf_react"
