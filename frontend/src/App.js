@@ -55,8 +55,8 @@ function App() {
   }
   
   return (
-    <div className="App">
-      <Navbar bg="primary" variant="dark">
+    <div className="d-flex flex-column min-vh-100">
+      <Navbar bg="dark" variant="dark">
         <div className="container-fluid">
           <Navbar.Brand>TodosApp</Navbar.Brand>
           <Nav className="me-auto">
@@ -75,7 +75,7 @@ function App() {
         </div>
       </Navbar>
       
-      <div className="container mt-4">
+      <div className="container mt-4 flex-fill">
         <Switch>	
           <Route exact path={["/", "/todos"]} render={(props) =>
             <TodosList {...props} token={token} />
@@ -100,8 +100,8 @@ function App() {
         </Switch>
       </div>
       
-      <footer className="text-center text-lg-start 
-        bg-light text-muted mt-2 fixed-bottom">
+      <footer className="text-center text-sm-start 
+        bg-dark text-muted mt-auto">
         <div className="text-center p-4">
           © Source code on <a 
             target="_blank" 
